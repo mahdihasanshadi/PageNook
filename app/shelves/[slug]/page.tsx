@@ -14,7 +14,7 @@ export function generateStaticParams() {
 export async function generateMetadata(props: PageProps<"/shelves/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const cat = getCategory(slug);
-  return cat ? { title: cat.name, description: `${cat.blurb} Every PDF $0.99 on PageNook.` } : {};
+  return cat ? { title: cat.name, description: `${cat.blurb} PDFs from $0.99 on PageNook.` } : {};
 }
 
 export default async function ShelfPage(props: PageProps<"/shelves/[slug]">) {

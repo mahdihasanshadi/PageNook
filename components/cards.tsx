@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatPrice, getCategory, productsIn, type Category, type Product } from "@/lib/catalog";
+import { FEATURED_CATEGORY, formatPrice, getCategory, productsIn, type Category, type Product } from "@/lib/catalog";
 import { CategoryIcon } from "./icons";
 
 export function CategoryCard({ category }: { category: Category }) {
@@ -8,10 +8,13 @@ export function CategoryCard({ category }: { category: Category }) {
   const label =
     ready > 0 ? `${ready} PDF${ready > 1 ? "s" : ""} ready` : items.length > 0 ? "First PDF in the works" : "Coming soon";
   return (
-    <Link className="cat" href={`/shelves/${category.slug}`}>
+    <Link className={`cat${category.slug === FEATURED_CATEGORY ? " featured" : ""}`} href={`/shelves/${category.slug}`}>
       <CategoryIcon category={category} />
       <div>
-        <h3>{category.name}</h3>
+        <h3>
+          {category.name}
+          {category.slug === FEATURED_CATEGORY && <span className="featured-tag">Featured shelf</span>}
+        </h3>
         <p>{category.blurb}</p>
         <span className="count">{label}</span>
       </div>

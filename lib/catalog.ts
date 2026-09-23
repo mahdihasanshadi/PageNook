@@ -2,9 +2,18 @@
 // To add a PDF: add an entry to `products`. To start selling one:
 // set its status to "available" and paste its Lemon Squeezy checkout URL.
 
-export const PRICE_USD = 0.99;
+// Short PDFs cost $0.99; long guides (30+ pages) cost $1.49.
+export const PRICE_SHORT = 0.99;
+export const PRICE_LONG = 1.49;
+export const LONG_PDF_PAGES = 30;
+export const MIN_PRICE = PRICE_SHORT;
+
+export function priceForPages(pages?: number) {
+  return pages !== undefined && pages >= LONG_PDF_PAGES ? PRICE_LONG : PRICE_SHORT;
+}
 
 export type CategorySlug =
+  | "parenting"
   | "kids-learning"
   | "study-exams"
   | "tech-coding"
@@ -18,10 +27,14 @@ export type Category = {
   blurb: string;
   color: string; // icon ink
   tint: string; // icon background
-  icon: "kids" | "study" | "code" | "work" | "home" | "planner";
+  icon: "parenting" | "kids" | "study" | "code" | "work" | "home" | "planner";
 };
 
+/** Shown as a wide highlighted card at the top of the shelf grid. */
+export const FEATURED_CATEGORY: CategorySlug = "parenting";
+
 export const categories: Category[] = [
+  { slug: "parenting", name: "Parenting", blurb: "Calm, practical guides and printables for raising little ones, from routines and big feelings to screen time.", color: "#B8456F", tint: "#FBE4EC", icon: "parenting" },
   { slug: "kids-learning", name: "Kids & Learning", blurb: "Tracing, phonics, math practice and coloring pages.", color: "#B07A08", tint: "#FDF1D6", icon: "kids" },
   { slug: "study-exams", name: "Study & Exams", blurb: "Research writing, thesis help and exam game plans.", color: "#C74536", tint: "#FDE3E0", icon: "study" },
   { slug: "tech-coding", name: "Tech & Coding", blurb: "Hands-on guides for building real projects with modern tools.", color: "#2C68CF", tint: "#E1EDFE", icon: "code" },
@@ -61,7 +74,7 @@ export const products: Product[] = [
     subtitle: "Build one real project, every prompt shown",
     category: "tech-coding",
     status: "available",
-    price: PRICE_USD,
+    price: priceForPages(39),
     pages: 39,
     format: "PDF · 170 × 240 mm · screen & print friendly",
     author: "Mahdi Hasan Shadi",
@@ -105,7 +118,7 @@ export const products: Product[] = [
     subtitle: "The CS & ML student edition",
     category: "study-exams",
     status: "coming-soon",
-    price: PRICE_USD,
+    price: PRICE_SHORT,
     format: "PDF",
     author: "Mahdi Hasan Shadi",
     coverGradient: ["#F26B5B", "#F5B82E"],
@@ -125,7 +138,7 @@ export const products: Product[] = [
     subtitle: "26 playful pages for ages 3–5",
     category: "kids-learning",
     status: "coming-soon",
-    price: PRICE_USD,
+    price: PRICE_SHORT,
     format: "Printable PDF · A4 & US Letter",
     author: "PageNook",
     coverGradient: ["#3FB68B", "#9BD86B"],
@@ -142,7 +155,7 @@ export const site = {
   name: "PageNook",
   tagline: "Pages worth keeping.",
   description:
-    "PageNook is a cozy corner of the internet for carefully made PDFs: kids' worksheets, study guides, coding guides, planners and more. Every PDF is $0.99, with instant download.",
+    "PageNook is a cozy corner of the internet for carefully made PDFs: kids' worksheets, study guides, coding guides, planners and more. PDFs from $0.99, with instant download.",
   url: process.env.SITE_URL ?? "https://pagenook.me",
   email: "hello@pagenook.me",
   owner: "Mahdi Hasan Shadi",

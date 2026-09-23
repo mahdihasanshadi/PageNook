@@ -59,23 +59,52 @@ export async function upsertOrder(o: {
     .run();
 }
 
+export type DailySales = { day: string; orders: number; cents: number };
+export type ProductSales = { product_name: string; orders: number; cents: number };
+
 export async function dashboardData() {
   const db = await getDb();
-  const [subs, orders, subCount, sales] = await db.batch([
-    db.prepare("SELECT * FROM subscribers ORDER BY created_at DESC, id DESC LIMIT 50"),
-    db.prepare("SELECT * FROM orders ORDER BY created_at DESC, id DESC LIMIT 50"),
+  const live = "status = 'paid' AND test_mode = 0";
+  const [subs, orders, subCount, sales, refunds, newSubs, daily, byProduct, testOrders] = await db.batch([
+    db.prepare("SELECT * FROM subscribers ORDER BY created_at DESC, id DESC LIMIT 25"),
+    db.prepare("SELECT * FROM orders ORDER BY created_at DESC, id DESC LIMIT 25"),
     db.prepare("SELECT COUNT(*) AS n FROM subscribers"),
+    db.prepare(`SELECT COUNT(*) AS n, COALESCE(SUM(total_cents), 0) AS cents FROM orders WHERE ${live}`),
+    db.prepare("SELECT COUNT(*) AS n, COALESCE(SUM(total_cents), 0) AS cents FROM orders WHERE status = 'refunded' AND test_mode = 0"),
+    db.prepare("SELECT COUNT(*) AS n FROM subscribers WHERE created_at >= datetime('now', '-7 days')"),
     db.prepare(
-      "SELECT COUNT(*) AS n, COALESCE(SUM(total_cents), 0) AS cents FROM orders WHERE status = 'paid' AND test_mode = 0",
+      `SELECT date(created_at) AS day, COUNT(*) AS orders, SUM(total_cents) AS cents FROM orders
+       WHERE ${live} AND created_at >= date('now', '-29 days') GROUP BY day ORDER BY day`,
     ),
+    db.prepare(
+      `SELECT COALESCE(product_name, 'Unknown') AS product_name, COUNT(*) AS orders, SUM(total_cents) AS cents
+       FROM orders WHERE ${live} GROUP BY product_name ORDER BY cents DESC`,
+    ),
+    db.prepare("SELECT COUNT(*) AS n FROM orders WHERE test_mode = 1"),
   ]);
+  const one = (r: D1Result) => r.results[0] as { n: number; cents?: number };
   return {
     subscribers: subs.results as Subscriber[],
     orders: orders.results as Order[],
-    subscriberCount: (subCount.results[0] as { n: number }).n,
-    paidOrders: (sales.results[0] as { n: number; cents: number }).n,
-    revenueCents: (sales.results[0] as { n: number; cents: number }).cents,
+    subscriberCount: one(subCount).n,
+    newSubscribers7d: one(newSubs).n,
+    paidOrders: one(sales).n,
+    revenueCents: one(sales).cents ?? 0,
+    refundedOrders: one(refunds).n,
+    refundedCents: one(refunds).cents ?? 0,
+    testOrders: one(testOrders).n,
+    daily: daily.results as DailySales[],
+    byProduct: byProduct.results as ProductSales[],
   };
+}
+
+export async function dbIsUp() {
+  try {
+    await (await getDb()).prepare("SELECT 1").first();
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function allSubscribers() {

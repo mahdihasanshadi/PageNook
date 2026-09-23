@@ -15,6 +15,7 @@ export function LogoMark({ light = false }: { light?: boolean }) {
 }
 
 const paths: Record<Category["icon"], React.ReactNode> = {
+  parenting: (<><circle cx="8" cy="6" r="3" /><circle cx="17" cy="10" r="2.2" /><path d="M3 21v-3a5 5 0 0110 0v3" /><path d="M13.5 21v-2a3.5 3.5 0 017 0v2" /></>),
   kids: (<><circle cx="12" cy="8" r="4" /><path d="M5 21c0-4 3-6 7-6s7 2 7 6" /></>),
   study: (<><path d="M2 7l10-4 10 4-10 4z" /><path d="M6 9v5c3 2 9 2 12 0V9" /></>),
   code: <path d="M8 7l-5 5 5 5M16 7l5 5-5 5" />,

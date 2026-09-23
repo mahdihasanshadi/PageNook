@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/catalog";
 
-export const metadata: Metadata = { title: "About", description: "Who makes PageNook PDFs, and why every one costs $0.99." };
+export const metadata: Metadata = { title: "About", description: "Who makes PageNook PDFs, and why they cost from just $0.99." };
 
 export default function AboutPage() {
   return (
@@ -19,11 +19,11 @@ export default function AboutPage() {
         </p>
         <p>
           So every PDF here is made to be <strong>used</strong>: clear structure, real examples, checklists you can act on,
-          and a design that&apos;s pleasant on a screen and on paper. The shop covers many shelves (kids&apos; learning,
-          study, tech, careers, home life and planners) and each shelf is stocked slowly, one good PDF at a time.
+          and a design that&apos;s pleasant on a screen and on paper. The shop covers many shelves (parenting, kids&apos;
+          learning, study, tech, careers, home life and planners) and each shelf is stocked slowly, one good PDF at a time.
         </p>
-        <h2>Why $0.99?</h2>
-        <p>Because a good guide shouldn&apos;t be a big decision. Every PDF costs the same small price, so you can try one without a second thought.</p>
+        <h2>Why so cheap?</h2>
+        <p>Because a good guide shouldn&apos;t be a big decision. Short PDFs cost $0.99 and our longest guides $1.49, so you can try one without a second thought.</p>
         <h2>How the PDFs are made</h2>
         <p>
           PDFs are written, designed and checked by hand, with the help of modern tools including AI assistants.

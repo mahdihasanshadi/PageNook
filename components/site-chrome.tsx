@@ -41,7 +41,7 @@ export function Footer() {
             </span>
           </Link>
           <p style={{ marginTop: 12, maxWidth: "30em" }}>
-            {site.tagline} Carefully made PDFs for kids, students, builders and everyday life. Every PDF $0.99.
+            {site.tagline} Carefully made PDFs for parents, kids, students, builders and everyday life. From $0.99.
           </p>
         </div>
         <div>

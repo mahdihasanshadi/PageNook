@@ -2,9 +2,10 @@ import Link from "next/link";
 import { CategoryCard, ProductCard } from "@/components/cards";
 import { SearchIcon } from "@/components/icons";
 import { SignupForm } from "@/components/signup-form";
-import { categories, newestProducts, PRICE_USD, formatPrice } from "@/lib/catalog";
+import { categories, newestProducts, MIN_PRICE, formatPrice } from "@/lib/catalog";
 
 const spines = [
+  { label: "Parents", href: "/shelves/parenting" },
   { label: "Kids", href: "/shelves/kids-learning" },
   { label: "Study", href: "/shelves/study-exams" },
   { label: "Home", href: "/shelves/home-life" },
@@ -24,7 +25,7 @@ export default function Home() {
               Pages <em>worth keeping.</em>
             </h1>
             <p className="lead">
-              Worksheets for little learners, guides for big exams, playbooks for builders. Every PDF on PageNook is
+              Gentle guides for parents, worksheets for little learners, playbooks for builders. Every PDF on PageNook is
               carefully made, clearly explained and ready to download the moment you buy.
             </p>
             <form className="search" action="/search" role="search">
@@ -32,7 +33,7 @@ export default function Home() {
               <input id="q" name="q" type="search" placeholder="Search worksheets, guides, planners…" />
               <button className="btn btn-sun" type="submit"><SearchIcon /> Search</button>
             </form>
-            <div className="price-pill">Every PDF just <b>{formatPrice(PRICE_USD)}</b></div>
+            <div className="price-pill">PDFs from just <b>{formatPrice(MIN_PRICE)}</b></div>
             <div className="trust">
               <span>Instant download</span>
               <span>Secure checkout</span>
@@ -40,7 +41,7 @@ export default function Home() {
             </div>
           </div>
           <div className="shelf-art">
-            <div className="note"><b>Something for everyone</b>From ABCs to APIs.</div>
+            <div className="note"><b>Something for everyone</b>From bedtime routines to APIs.</div>
             <div className="books">
               {spines.map((s) => (
                 <Link key={s.label} className="book" href={s.href} aria-label={`${s.label} shelf`}>{s.label}</Link>

@@ -14,7 +14,7 @@ export default function ShelvesPage() {
       <div className="container page-head">
         <div className="crumbs"><Link href="/">Home</Link><span>/</span><span>Shelves</span></div>
         <h1>All shelves</h1>
-        <p className="lead">Six corners of the nook. Every PDF is $0.99.</p>
+        <p className="lead">Seven corners of the nook. PDFs from $0.99.</p>
       </div>
       <section className="section">
         <div className="container">

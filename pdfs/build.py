@@ -35,7 +35,7 @@ def main(slug: str, title: str) -> None:
 
     # chapter id -> title of its opener
     chapters = re.findall(
-        r'<section class="chapter" id="(\w+)">\s*<div class="opener"><div class="num">[^<]*</div><h1>(.*?)</h1>',
+        r'<section class="chapter[^"]*" id="(\w+)">\s*<div class="opener"><div class="num">([^<]*)</div><h1>(.*?)</h1>',
         html)
 
     tmp = folder / "_pass1.html"
@@ -44,13 +44,16 @@ def main(slug: str, title: str) -> None:
     render(tmp, first)
 
     pages = [norm(p.extract_text() or "") for p in PdfReader(first).pages]
-    toc_page = next(i for i, t in enumerate(pages) if t.startswith(norm("Contents")) or "contents" in t[:60])
+    toc_page = next((i for i, t in enumerate(pages) if t.startswith(norm("Contents")) or "contents" in t[:60]), 0)
     numbers = {}
-    for cid, ctitle in chapters:
-        key = norm(re.sub(r"<.*?>", "", ctitle).replace("&amp;", "&"))
-        for i in range(toc_page + 1, len(pages)):
-            if key in pages[i]:
-                numbers[cid] = i + 1
+    for cid, cnum, ctitle in chapters:
+        title = norm(re.sub(r"<.*?>", "", ctitle).replace("&amp;", "&"))
+        # Match the opener's number and title together, so a title that is
+        # also mentioned elsewhere (a summary table) doesn't win.
+        for key in (norm(cnum) + title, title):
+            hit = next((i for i in range(toc_page + 1, len(pages)) if key in pages[i]), None)
+            if hit is not None:
+                numbers[cid] = hit + 1
                 break
 
     for cid, n in numbers.items():
@@ -62,7 +65,7 @@ def main(slug: str, title: str) -> None:
     tmp.unlink()
     first.unlink()
 
-    missing = [c for c, _ in chapters if c not in numbers]
+    missing = [c for c, _, _ in chapters if c not in numbers]
     print(f"{out.name}: {len(PdfReader(out).pages)} pages; chapter pages {numbers}")
     if missing:
         print("Could not locate:", missing)

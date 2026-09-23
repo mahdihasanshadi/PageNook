@@ -1,0 +1,5 @@
+# Paid products stay out of the public repo.
+# Make the repo private, then remove these lines to version them.
+pdfs/*/
+!pdfs/build.py
+__pycache__/

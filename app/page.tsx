@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CategoryCard, ProductCard } from "@/components/cards";
 import { SearchIcon } from "@/components/icons";
 import { SignupForm } from "@/components/signup-form";
-import { categories, newestProducts, MIN_PRICE, formatPrice } from "@/lib/catalog";
+import { categories, newestProducts, MIN_PRICE, formatPrice, productsIn } from "@/lib/catalog";
 
 const spines = [
   { label: "Parents", href: "/shelves/parenting" },
@@ -63,14 +63,26 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section" id="parents">
+        <div className="container">
+          <div className="section-head">
+            <h2>For parents</h2>
+            <Link href="/shelves/parenting">All parenting PDFs →</Link>
+          </div>
+          <div className="products">
+            {productsIn("parenting").slice(0, 6).map((p) => <ProductCard key={p.slug} product={p} />)}
+          </div>
+        </div>
+      </section>
+
       <section className="section" id="new">
         <div className="container">
           <div className="section-head">
-            <h2>New on the shelves</h2>
-            <p>Fresh PDFs, added regularly.</p>
+            <h2>More from the nook</h2>
+            <Link href="/shelves">Every PDF →</Link>
           </div>
           <div className="products">
-            {newestProducts(6).map((p) => <ProductCard key={p.slug} product={p} />)}
+            {newestProducts(20).filter((p) => p.category !== "parenting").slice(0, 6).map((p) => <ProductCard key={p.slug} product={p} />)}
           </div>
         </div>
       </section>

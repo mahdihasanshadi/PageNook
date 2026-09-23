@@ -77,7 +77,44 @@ table.form tr.total td { font: 800 8.5pt "Gabarito", sans-serif; color: var(--in
 """
 
 FONTS = ('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800'
-         '&family=Nunito+Sans:wght@400;600;700;800&display=swap">')
+         '&family=Nunito+Sans:wght@400;600;700;800&family=Andika:wght@400;700&display=swap">')
+
+# Twemoji illustrations (CC-BY 4.0). Every PDF that uses emoji() must print TWEMOJI_CREDIT.
+TWEMOJI_DIR = Path(__file__).resolve().parent / "_twemoji"
+TWEMOJI_CREDIT = ("Illustrations: Twemoji by Twitter, Inc. and other contributors, licensed under CC-BY 4.0 "
+                  "(creativecommons.org/licenses/by/4.0).")
+
+
+def emoji(ch: str) -> str:
+    """Return a file:// URL for the Twemoji SVG of an emoji character, downloading it once."""
+    import urllib.request
+
+    code = "-".join(f"{ord(c):x}" for c in ch if ord(c) != 0xFE0F)
+    TWEMOJI_DIR.mkdir(exist_ok=True)
+    path = TWEMOJI_DIR / f"{code}.svg"
+    if not path.exists():
+        url = f"https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/{code}.svg"
+        with urllib.request.urlopen(url, timeout=30) as r:  # raises on 404 so a bad emoji fails loudly
+            path.write_bytes(r.read())
+    return path.as_uri()
+
+
+def info_page(title: str, inner_html: str, legal: str = "") -> str:
+    """A text page for grown-ups: intro, how to use, tips. `legal` goes at the bottom."""
+    legal_html = f'<p class="legal">{legal}</p>' if legal else ""
+    return f'<section class="page info"><h1>{title}</h1>{inner_html}{legal_html}</section>'
+
+
+def cover_page(eyebrow: str, title_html: str, lede: str, art_html: str, pill: str, note: str) -> str:
+    """Standard PageNook cover. Background comes from --cover in the theme CSS."""
+    return f"""<section class="page cover">
+  <div class="brand">{LOGO.format(s=20, roof="#fff")}<span>Page<b>Nook</b></span></div>
+  <div class="eyebrow">{eyebrow}</div>
+  <h1>{title_html}</h1>
+  <p class="lede">{lede}</p>
+  <div class="art">{art_html}</div>
+  <div class="bottom"><span class="pill">{pill}</span><span>{note}</span></div>
+</section>"""
 
 
 def rows(n, cols, total=None, widths=None):

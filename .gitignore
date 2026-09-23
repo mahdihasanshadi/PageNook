@@ -1,5 +1,30 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js / cloudflare builds
+/.next/
+/out/
+/build
+/.open-next/
+/.wrangler/
+
+# env files and secrets
+.env*
+!.env.example
+.dev.vars*
+!.dev.vars.example
+*.pem
+
+# misc
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+__pycache__/
+
 # Paid products stay out of the public repo.
 # Make the repo private, then remove these lines to version them.
 pdfs/*/
 !pdfs/build.py
-__pycache__/

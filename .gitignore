@@ -28,3 +28,8 @@ __pycache__/
 # Make the repo private, then remove these lines to version them.
 pdfs/*/
 !pdfs/build.py
+
+# Generated marketing images (regenerate with scripts/marketing_images.py)
+marketing/pins/
+marketing/square/
+marketing/_tmp.html

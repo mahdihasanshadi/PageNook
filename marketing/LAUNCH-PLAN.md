@@ -187,6 +187,62 @@ Image files are in `marketing/pins/` (named by product). Paste the title and des
 - **Title:** Chores & Rewards by Age (3–12): Age-right chore lists, charts and simple rewards (Printable PDF)
 - **Description:** Realistic chore lists for ages 3–4, 5–6, 7–9 and 10–12, with charts, a family rota, a 30-star reward chart, a free-reward menu and a Super Helper certificate. Instant download, $0.99. Print at home. Keywords: chore chart, chores by age, age appropriate chores, reward chart, kids responsibilities, family chore rota.
 
+### Family Meeting Kit
+- **Image:** `marketing/pins/family-meeting-kit.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/family-meeting-kit`
+- **Title:** Family Meeting Kit: Short, warm weekly meetings the whole family enjoys (Printable PDF)
+- **Description:** An agenda poster, rotating role cards, meeting notes, 36 talk cards and 30 fun ideas for short weekly family meetings where everyone gets a voice. Instant download, $0.99. Print at home. Keywords: family meeting, family meeting agenda, conversation starters, appreciation cards, family values, family planner.
+
+### Homework & After-School Planner
+- **Image:** `marketing/pins/homework-after-school-planner.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/homework-after-school-planner`
+- **Title:** Homework & After-School Planner: Calmer afternoons and homework habits for ages 6–11 (Printable PDF)
+- **Description:** A picture routine chart, homework station checklist, weekly and project planners, reading log, spelling practice and a "Stuck? Try this" card for ages 6–11. Instant download, $0.99. Print at home. Keywords: homework planner, after school routine, kids routine chart, reading log, spelling practice, homework station.
+
+### Kindergarten Readiness Kit
+- **Image:** `marketing/pins/kindergarten-readiness-kit.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/kindergarten-readiness-kit`
+- **Title:** Kindergarten Readiness Kit: Skills checklist, 30 activities and first-day pages (Printable PDF)
+- **Description:** A friendly skills checklist, 30 playful at-home activity cards and first-day pages to help your child feel ready and excited for kindergarten. Instant download, $0.99. Print at home. Keywords: kindergarten readiness, kindergarten readiness checklist, preschool activities, school readiness, first day of kindergarten, back to school printable.
+
+### Sibling Harmony Kit
+- **Image:** `marketing/pins/sibling-harmony-kit.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/sibling-harmony-kit`
+- **Title:** Sibling Harmony Kit: Calm scripts, kindness jar and team challenges (Printable PDF)
+- **Description:** Calm words for sibling squabbles, a problem-solving poster, a 40-slip kindness jar and 16 team challenges to help brothers and sisters get along. Instant download, $0.99. Print at home. Keywords: sibling rivalry, sibling fighting, siblings getting along, kindness jar, problem solving for kids, turn taking chart.
+
+### Summer Break Bucket List & Planner
+- **Image:** `marketing/pins/summer-break-planner.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/summer-break-planner`
+- **Title:** Summer Break Bucket List & Planner: 100 ideas, a family bucket list and kids' summer charts (Printable PDF)
+- **Description:** A printable family summer kit: a bucket list to fill in, 100 tickable summer ideas, a weekly plan, a kids' daily rhythm, a reading challenge and 40 boredom buster slips. Instant download, $0.99. Print at home. Keywords: summer bucket list, summer planner for kids, summer break activities, family bucket list printable, summer reading challenge, boredom jar.
+
+### Kids' Gratitude & Kindness Journal
+- **Image:** `marketing/pins/gratitude-kindness-journal.png`
+- **Board:** Kids & Learning
+- **Link:** `https://pagenook.me/pdf/gratitude-kindness-journal`
+- **Title:** Kids' Gratitude & Kindness Journal: A 30-day draw-and-write journal for ages 5–10 (Printable PDF)
+- **Description:** A printable draw-and-write journal with 30 gentle gratitude and kindness prompts, a 30-day kindness challenge, thank-you notes, a coloring page and a certificate. Instant download, $0.99. Print at home. Keywords: gratitude journal for kids, kindness journal, kids journal printable, kindness challenge, thank you notes for kids, social emotional learning.
+
+### Shapes & Colors Workbook
+- **Image:** `marketing/pins/shapes-colors-workbook.png`
+- **Board:** Kids & Learning
+- **Link:** `https://pagenook.me/pdf/shapes-colors-workbook`
+- **Title:** Shapes & Colors Workbook: Trace, spot and color 10 shapes and 8 colors (Printable PDF)
+- **Description:** A cheerful preschool workbook to trace 10 shapes, learn 8 colors and spot them in everyday things, with sorting, patterns, a shape hunt and a certificate. Instant download, $0.99. Print at home. Keywords: shapes worksheets, colors worksheets, preschool printable, shape tracing, learn colors, toddler activities.
+
+### Road Trip & Travel Activity Pack
+- **Image:** `marketing/pins/road-trip-activity-pack.png`
+- **Board:** Kids & Learning
+- **Link:** `https://pagenook.me/pdf/road-trip-activity-pack`
+- **Title:** Road Trip & Travel Activity Pack: Car bingo, I-spy, games and a travel journal (Printable PDF)
+- **Description:** Screen-free fun for long drives and trips: three picture bingo cards, a 36-item I-spy hunt, would-you-rather questions, a maze and pages to remember the trip. Ages 4 to 10. Instant download, $0.99. Print at home. Keywords: road trip activities, car bingo, travel games for kids, i spy printable, screen-free travel, kids travel journal.
+
 ### ABC Tracing Adventure
 - **Image:** `marketing/pins/abc-tracing-adventure.png`
 - **Board:** Kids & Learning
@@ -207,6 +263,20 @@ Image files are in `marketing/pins/` (named by product). Paste the title and des
 - **Link:** `https://pagenook.me/pdf/baby-first-year-bundle`
 - **Title:** Baby's First Year Bundle: Newborn logs, a memory book and first-words cards (Printable PDF)
 - **Description:** Everything for baby's first year in one download: newborn feeding, sleep and diaper logs, a keepsake memory book, and 60 first-words picture cards for later. Instant download, $1.99. Print at home. Keywords: newborn, baby, memory book, bundle, new parents, baby shower gift.
+
+### The Early Learning Bundle
+- **Image:** `marketing/pins/early-learning-bundle.png`
+- **Board:** Kids & Learning
+- **Link:** `https://pagenook.me/pdf/early-learning-bundle`
+- **Title:** The Early Learning Bundle: Letters, numbers, shapes and first words for ages 1–5 (Printable PDF)
+- **Description:** All four PageNook early-learning printables in one download: ABC tracing, numbers 1–20, shapes and colors, and 60 first-words picture cards. Instant download, $2.99. Print at home. Keywords: preschool, bundle, tracing, abc, numbers, shapes.
+
+### The Family Organizer Bundle
+- **Image:** `marketing/pins/family-organizer-bundle.png`
+- **Board:** Home & Life
+- **Link:** `https://pagenook.me/pdf/family-organizer-bundle`
+- **Title:** The Family Organizer Bundle: Meals, money, chores, meetings and homework, sorted (Printable PDF)
+- **Description:** Five printable planners that keep a busy family running: weekly meals and groceries, the monthly budget, chores and rewards, family meetings and after-school homework. Instant download, $2.99. Print at home. Keywords: family planner, bundle, meal planner, budget, chore chart, family meeting.
 
 ## Instagram captions (parenting)
 
@@ -278,6 +348,46 @@ Image files are in `marketing/pins/` (named by product). Paste the title and des
 > Age-right chore lists, charts and simple rewards 💛
 >
 > Inside: grown-ups guide: why chores help, 4 steps to teach a chore, safety notes, and more.
+> Printable PDF, $0.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### Family Meeting Kit
+> Short, warm weekly meetings the whole family enjoys 💛
+>
+> Inside: grown-ups guide: six simple rules of thumb and tips for your first meeting, and more.
+> Printable PDF, $0.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### Homework & After-School Planner
+> Calmer afternoons and homework habits for ages 6–11 💛
+>
+> Inside: grown-ups guide: six things that help, plus helpful things to say, and more.
+> Printable PDF, $0.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### Kindergarten Readiness Kit
+> Skills checklist, 30 activities and first-day pages 💛
+>
+> Inside: A grown-ups guide: readiness is a range, how to use the kit, and when to ask for advice, and more.
+> Printable PDF, $0.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### Sibling Harmony Kit
+> Calm scripts, kindness jar and team challenges 💛
+>
+> Inside: A grown-ups guide: why siblings fight, staying neutral, coaching, and when to step in, and more.
+> Printable PDF, $0.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### Summer Break Bucket List & Planner
+> 100 ideas, a family bucket list and kids' summer charts 💛
+>
+> Inside: A grown-ups page: loose rhythms, planning with kids, balancing busy and lazy days, and summer safety basics, and more.
 > Printable PDF, $0.99, link in bio.
 >
 > #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities

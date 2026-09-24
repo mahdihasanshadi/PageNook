@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BuyButton } from "@/components/buy-button";
 import { ProductCard } from "@/components/cards";
-import { formatPrice, getCategory, getProduct, products, site } from "@/lib/catalog";
+import { bundleItems, bundlesContaining, bundleValue, formatPrice, getCategory, getProduct, products, site } from "@/lib/catalog";
 
 export const dynamicParams = false;
 
@@ -35,7 +35,13 @@ export default async function ProductPage(props: PageProps<"/pdf/[slug]">) {
   if (!p) notFound();
   const cat = getCategory(p.category)!;
   const ready = p.status === "available";
-  const related = products.filter((x) => x.slug !== p.slug).slice(0, 3);
+  const items = bundleItems(p);
+  const value = bundleValue(p);
+  const bundles = bundlesContaining(p.slug);
+  const related = [
+    ...products.filter((x) => x.slug !== p.slug && x.category === p.category && x.status === "available" && !p.bundle?.includes(x.slug)),
+    ...products.filter((x) => x.slug !== p.slug && x.category !== p.category && x.status === "available"),
+  ].slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -87,14 +93,21 @@ export default async function ProductPage(props: PageProps<"/pdf/[slug]">) {
             <div className="buy-box">
               <div className="buy-row">
                 <span className="price">{formatPrice(p.price)}</span>
+                {p.bundle && <s className="was">{formatPrice(value)}</s>}
                 <span className={`badge ${ready ? "badge-ready" : "badge-soon"}`}>{ready ? "Instant download" : "Coming soon"}</span>
               </div>
               <div className="buy-row"><BuyButton product={p} /></div>
               <div className="facts">
                 {p.pages && <span>{p.pages} pages</span>}
+                {p.bundle && <span>{items.length} PDFs · {items.reduce((n, x) => n + (x.pages ?? 0), 0)} pages in total</span>}
                 <span>{p.format}</span>
                 <span>By {p.author}</span>
               </div>
+              {p.bundle && (
+                <p className="save-note">
+                  You save {formatPrice(value - p.price)} compared with buying all {items.length} separately.
+                </p>
+              )}
               <p className="buy-note">One-time payment. Yours to keep, including future fixes to this edition.</p>
             </div>
 
@@ -108,6 +121,35 @@ export default async function ProductPage(props: PageProps<"/pdf/[slug]">) {
           </div>
         </div>
       </div>
+
+      {items.length > 0 && (
+        <section className="section">
+          <div className="container">
+            <div className="section-head"><h2>What&apos;s in this bundle</h2><p>Every page of all {items.length} PDFs.</p></div>
+            <div className="products">{items.map((x) => <ProductCard key={x.slug} product={x} />)}</div>
+          </div>
+        </section>
+      )}
+
+      {bundles.length > 0 && (
+        <section className="section">
+          <div className="container">
+            <div className="bundle-callout">
+              <div>
+                <span className="kicker">Save with a bundle</span>
+                <h2>This PDF is also in {bundles.map((b) => b.title).join(" and ")}</h2>
+              </div>
+              <div className="bundle-links">
+                {bundles.map((b) => (
+                  <Link key={b.slug} className="btn btn-primary" href={`/pdf/${b.slug}`}>
+                    {b.title} · {formatPrice(b.price)} for {bundleItems(b).length}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {p.previews && (
         <section className="section">

@@ -148,6 +148,14 @@ a.book:hover { filter: brightness(1.08); }
 .badge { font-size: 0.78rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
 .badge-soon { color: var(--muted); background: var(--indigo-soft); }
 .badge-ready { color: #1f7a57; background: #ddf3ea; }
+.badge-bundle { color: #8a2f55; background: #fbe4ec; }
+.was { font-family: var(--body); font-size: 0.8em; font-weight: 600; color: var(--muted); margin-left: 8px; }
+.save-note { font-weight: 700; color: #1f7a57; }
+.bundle-callout { background: #fbe4ec; border-radius: 20px; padding: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+.bundle-callout h2 { font-size: 1.4rem; color: var(--ink); max-width: 30em; }
+.bundle-callout .kicker { color: #b8456f; margin-bottom: 6px; }
+.bundle-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.bundle-links .btn { white-space: normal; }
 
 /* ---------- how it works ---------- */
 .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }

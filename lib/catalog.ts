@@ -65,6 +65,8 @@ export type Product = {
   forWho: string[];
   addedOn: string; // ISO date
   keywords: string[];
+  /** Set on bundles: the slugs of the PDFs included. */
+  bundle?: string[];
 };
 
 export const products: Product[] = [
@@ -905,6 +907,62 @@ export const products: Product[] = [
     addedOn: "2026-09-23",
     keywords: ["kids", "abc", "alphabet", "tracing", "preschool", "kindergarten", "worksheet", "printable", "letters", "handwriting", "toddler", "parents"],
   },
+  {
+    slug: "toddler-years-bundle",
+    title: "The Toddler Years Bundle",
+    subtitle: "5 parenting PDFs for calmer days, together",
+    category: "parenting",
+    status: "available",
+    price: 2.99,
+    format: "5 printable PDFs · A4 and US Letter versions included",
+    author: "PageNook",
+    cover: "/covers/toddler-years-bundle.jpg",
+    coverGradient: ["#B8456F", "#F5B82E"],
+    bundle: ["calm-mornings-bedtimes", "big-feelings-toolkit", "say-this-not-that", "potty-training-starter-kit", "screen-free-activities"],
+    summary:
+      "Five toddler printables in one download: routine charts, big-feelings tools, calm phrases, potty training and 100 screen-free activities.",
+    description: [
+      "The toddler years are full of big moments: morning battles, meltdowns, potty training and the endless question of what to do next. This bundle brings together the five PageNook printables made for exactly those moments.",
+      "You get every page of all five PDFs, in both A4 and US Letter, for less than buying them one by one.",
+    ],
+    inside: [
+      "Calm Mornings & Bedtimes: routine charts and 36 picture cards",
+      "The Big Feelings Toolkit: feelings chart, thermometer and calm-down cards",
+      "Say This, Not That: 50 calm phrase swaps and a fridge cheat sheet",
+      "Potty Training Starter Kit: gentle plan, sticker charts and certificate",
+      "100 Screen-Free Activities for ages 2\u20136, as cut-out cards",
+    ],
+    forWho: ["Parents and caregivers of 2\u20135 year olds", "Nursery and preschool teachers", "Anyone looking for a thoughtful gift for new-ish parents"],
+    addedOn: "2026-09-24",
+    keywords: ["toddler", "bundle", "parenting", "routine chart", "tantrums", "potty training", "activities", "printables", "preschool"],
+  },
+  {
+    slug: "baby-first-year-bundle",
+    title: "Baby's First Year Bundle",
+    subtitle: "Newborn logs, a memory book and first-words cards",
+    category: "parenting",
+    status: "available",
+    price: 1.99,
+    format: "3 printable PDFs · A4 and US Letter versions included",
+    author: "PageNook",
+    cover: "/covers/baby-first-year-bundle.jpg",
+    coverGradient: ["#6BA59A", "#F2B8A0"],
+    bundle: ["newborn-survival-planner", "baby-first-year-memory-book", "first-words-flashcards"],
+    summary:
+      "Everything for baby's first year in one download: newborn feeding, sleep and diaper logs, a keepsake memory book, and 60 first-words picture cards for later.",
+    description: [
+      "Start with the Newborn Survival Planner for the blur of the first weeks, fill in the First Year Memory Book month by month, and bring out the First Words Flashcards as your baby starts to point and babble.",
+      "All three PDFs, every page, in A4 and US Letter. It also makes a lovely printable gift for expecting parents.",
+    ],
+    inside: [
+      "The Newborn Survival Planner: 24-hour tracker, feeding, sleep and diaper logs",
+      "Baby's First Year Memory Book: birth, 12 month pages, firsts and letters",
+      "First Words Flashcards: 60 picture cards in 6 themes",
+    ],
+    forWho: ["Expecting and new parents", "Grandparents and friends looking for a gift"],
+    addedOn: "2026-09-24",
+    keywords: ["newborn", "baby", "memory book", "bundle", "new parents", "baby shower gift", "flashcards", "printables"],
+  },
 ];
 
 export const site = {
@@ -923,6 +981,21 @@ export function getCategory(slug: string) {
 
 export function getProduct(slug: string) {
   return products.find((p) => p.slug === slug);
+}
+
+/** The PDFs inside a bundle (empty for a single PDF). */
+export function bundleItems(p: Product) {
+  return (p.bundle ?? []).map((slug) => getProduct(slug)).filter((x): x is Product => Boolean(x));
+}
+
+/** What a bundle's PDFs would cost bought one by one. */
+export function bundleValue(p: Product) {
+  return Math.round(bundleItems(p).reduce((sum, x) => sum + x.price, 0) * 100) / 100;
+}
+
+/** Bundles that include this PDF. */
+export function bundlesContaining(slug: string) {
+  return products.filter((p) => p.bundle?.includes(slug) && p.status === "available");
 }
 
 export function productsIn(category: CategorySlug) {

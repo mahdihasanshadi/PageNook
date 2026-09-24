@@ -70,7 +70,7 @@ export default function Home() {
             <Link href="/shelves/parenting">All parenting PDFs →</Link>
           </div>
           <div className="products">
-            {productsIn("parenting").slice(0, 6).map((p) => <ProductCard key={p.slug} product={p} />)}
+            {[...productsIn("parenting")].sort((x, y) => Number(Boolean(y.bundle)) - Number(Boolean(x.bundle))).slice(0, 6).map((p) => <ProductCard key={p.slug} product={p} />)}
           </div>
         </div>
       </section>

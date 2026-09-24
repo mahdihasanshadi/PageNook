@@ -194,6 +194,20 @@ Image files are in `marketing/pins/` (named by product). Paste the title and des
 - **Title:** ABC Tracing Adventure: Trace, say and learn every letter from A to Z (Printable PDF)
 - **Description:** 26 letter pages for ages 3–5: a friendly picture and word for every letter, big and little letters to trace on handwriting lines, and a certificate at the end. Instant download, $1.49. Print at home. Keywords: kids, abc, alphabet, tracing, preschool, kindergarten.
 
+### The Toddler Years Bundle
+- **Image:** `marketing/pins/toddler-years-bundle.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/toddler-years-bundle`
+- **Title:** The Toddler Years Bundle: 5 parenting PDFs for calmer days, together (Printable PDF)
+- **Description:** Five toddler printables in one download: routine charts, big-feelings tools, calm phrases, potty training and 100 screen-free activities. Instant download, $2.99. Print at home. Keywords: toddler, bundle, parenting, routine chart, tantrums, potty training.
+
+### Baby's First Year Bundle
+- **Image:** `marketing/pins/baby-first-year-bundle.png`
+- **Board:** Parenting
+- **Link:** `https://pagenook.me/pdf/baby-first-year-bundle`
+- **Title:** Baby's First Year Bundle: Newborn logs, a memory book and first-words cards (Printable PDF)
+- **Description:** Everything for baby's first year in one download: newborn feeding, sleep and diaper logs, a keepsake memory book, and 60 first-words picture cards for later. Instant download, $1.99. Print at home. Keywords: newborn, baby, memory book, bundle, new parents, baby shower gift.
+
 ## Instagram captions (parenting)
 
 ### The Newborn Survival Planner
@@ -265,6 +279,22 @@ Image files are in `marketing/pins/` (named by product). Paste the title and des
 >
 > Inside: grown-ups guide: why chores help, 4 steps to teach a chore, safety notes, and more.
 > Printable PDF, $0.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### The Toddler Years Bundle
+> 5 parenting PDFs for calmer days, together 💛
+>
+> Inside: calm mornings & bedtimes: routine charts and 36 picture cards, and more.
+> Printable PDF, $2.99, link in bio.
+>
+> #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
+
+### Baby's First Year Bundle
+> Newborn logs, a memory book and first-words cards 💛
+>
+> Inside: the newborn survival planner: 24-hour tracker, feeding, sleep and diaper logs, and more.
+> Printable PDF, $1.99, link in bio.
 >
 > #parentingtips #toddlermom #gentleparenting #printables #momlife #kidsactivities
 

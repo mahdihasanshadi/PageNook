@@ -11,6 +11,7 @@ READY = ROOT / "pdfs" / "READY-TO-UPLOAD"
 
 data = json.loads(subprocess.run(["node", "scripts/export-catalog.ts"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", check=True).stdout)
 cats = {c["slug"]: c["name"] for c in data["categories"]}
+by_slug = {p["slug"]: p for p in data["products"]}
 files = sorted(p.name for p in READY.glob("*.pdf"))
 
 out = [
@@ -33,7 +34,8 @@ for i, p in enumerate(available, 1):
 out.append("")
 
 for i, p in enumerate(available, 1):
-    mine = [f for f in files if f.startswith(p["title"] + " (") or f == p["title"] + ".pdf"]
+    titles = [by_slug[s]["title"] for s in p["bundle"]] if p.get("bundle") else [p["title"]]
+    mine = [f for f in files for t in titles if f.startswith(t + " (") or f == t + ".pdf"]
     out += [
         "---",
         "",
@@ -53,9 +55,10 @@ for i, p in enumerate(available, 1):
         "> **What's inside:**",
     ]
     out += [f"> - {item}" for item in p["inside"]]
-    out += [">", f"> {p['pages']} pages · {p['format']}", ""]
+    size = f"{p['pages']} pages · " if p.get("pages") else ""
+    out += [">", f"> {size}{p['format']}", ""]
 
 READY.mkdir(exist_ok=True)
 (READY / "UPLOAD-GUIDE.md").write_text("\n".join(out) + "\n", encoding="utf-8")
-missing = [p["title"] for p in available if not any(f.startswith(p["title"]) for f in files)]
+missing = [p["title"] for p in available if not p.get("bundle") and not any(f.startswith(p["title"]) for f in files)]
 print(f"{len(available)} products written; missing files: {missing or 'none'}")

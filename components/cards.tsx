@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FEATURED_CATEGORY, formatPrice, getCategory, productsIn, type Category, type Product } from "@/lib/catalog";
+import { bundleItems, bundleValue, FEATURED_CATEGORY, formatPrice, getCategory, productsIn, type Category, type Product } from "@/lib/catalog";
 import { CategoryIcon } from "./icons";
 
 export function CategoryCard({ category }: { category: Category }) {
@@ -54,8 +54,15 @@ export function ProductCard({ product }: { product: Product }) {
         <h3>{product.title}</h3>
         <p>{product.summary}</p>
         <div className="foot">
-          <span className="price">{formatPrice(product.price)}</span>
-          <span className={`badge ${ready ? "badge-ready" : "badge-soon"}`}>{ready ? "Instant download" : "Coming soon"}</span>
+          <span className="price">
+            {formatPrice(product.price)}
+            {product.bundle && <s className="was">{formatPrice(bundleValue(product))}</s>}
+          </span>
+          {product.bundle ? (
+            <span className="badge badge-bundle">Bundle · {bundleItems(product).length} PDFs</span>
+          ) : (
+            <span className={`badge ${ready ? "badge-ready" : "badge-soon"}`}>{ready ? "Instant download" : "Coming soon"}</span>
+          )}
         </div>
       </div>
     </Link>

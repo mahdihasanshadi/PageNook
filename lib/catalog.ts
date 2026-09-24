@@ -600,6 +600,7 @@ export const products: Product[] = [
     format: "Printable PDF · A4 and US Letter versions included",
     author: "PageNook",
     cover: "/covers/big-feelings-toolkit.jpg",
+    freeSample: "/free/big-feelings-starter-pack.pdf",
     coverGradient: ["#8E7CC3", "#F29A7E"],
     previews: [
       { src: "/previews/big-feelings-toolkit-1.jpg", alt: "Page 4 of The Big Feelings Toolkit" },

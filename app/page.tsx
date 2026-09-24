@@ -104,8 +104,8 @@ export default function Home() {
             <div>
               <h2>Get a free PDF from the nook</h2>
               <p>
-                Join the list and download a free 8-page sample right away, plus a short note whenever a new PDF lands
-                on the shelves.
+                Join the list and download a free PDF right away (a Big Feelings starter pack for parents, or a coding
+                sample), plus a short note whenever a new PDF lands on the shelves.
               </p>
             </div>
             <SignupForm id="home" source="home" />

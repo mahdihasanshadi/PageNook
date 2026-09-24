@@ -167,6 +167,8 @@ a.book:hover { filter: brightness(1.08); }
 .signup .msg.ok { color: var(--sun); }
 .signup .msg.err { color: #ffb4a8; }
 .signup .msg a { color: #fff; }
+.signup .msg p { margin: 0 0 4px; }
+.sample-links { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-weight: 700; }
 .signup.light input[type="email"] { border: 2px solid var(--line); }
 .signup.light .fine { color: var(--muted); }
 .signup.light .msg.ok { color: #1f7a57; }

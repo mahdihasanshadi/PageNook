@@ -2,18 +2,21 @@
 
 import { useState } from "react";
 
+export const FREE_SAMPLES = [
+  { label: "Big Feelings starter pack (parenting, 5 pages)", url: "/free/big-feelings-starter-pack.pdf" },
+  { label: "Ship It with Claude Code sample (coding, 8 pages)", url: "/free/ship-it-with-claude-code-sample.pdf" },
+];
+
 type State = { kind: "idle" } | { kind: "sending" } | { kind: "ok"; isNew: boolean } | { kind: "error"; message: string };
 
 export function SignupForm({
   id,
   source,
   light = false,
-  sampleUrl = "/free/ship-it-with-claude-code-sample.pdf",
 }: {
   id: string;
   source: string;
   light?: boolean;
-  sampleUrl?: string;
 }) {
   const [state, setState] = useState<State>({ kind: "idle" });
 
@@ -46,10 +49,14 @@ export function SignupForm({
         {state.kind === "sending" ? "Sending…" : "Get my free PDF"}
       </button>
       {state.kind === "ok" && (
-        <p className="msg ok" role="status">
-          {state.isNew ? "You're on the list! " : "You're already on the list. "}
-          <a href={sampleUrl} download>Download your free sample now →</a>
-        </p>
+        <div className="msg ok" role="status">
+          <p>{state.isNew ? "You're on the list! Pick your free PDF:" : "You're already on the list. Pick your free PDF:"}</p>
+          <ul className="sample-links">
+            {FREE_SAMPLES.map((s) => (
+              <li key={s.url}><a href={s.url} download>{s.label} →</a></li>
+            ))}
+          </ul>
+        </div>
       )}
       {state.kind === "error" && <p className="msg err" role="alert">{state.message}</p>}
       <p className="fine">No spam. We only write when a new PDF lands. Unsubscribe anytime.</p>

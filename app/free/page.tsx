@@ -4,7 +4,7 @@ import { SignupForm } from "@/components/signup-form";
 
 export const metadata: Metadata = {
   title: "Free sample",
-  description: "Get a free 8-page sample from Ship It with Claude Code and hear when new PageNook PDFs arrive.",
+  description: "Get a free PageNook PDF: a Big Feelings starter pack for parents or a Claude Code sample for builders.",
 };
 
 export default function FreePage() {
@@ -14,8 +14,9 @@ export default function FreePage() {
         <div className="crumbs"><Link href="/">Home</Link><span>/</span><span>Free sample</span></div>
         <h1>A free PDF from the nook</h1>
         <p className="lead">
-          Leave your email and download an 8-page sample of <em>Ship It with Claude Code</em> right away: the intro,
-          chapter 1, two prompt-pattern pages and the one-page cheat sheet.
+          Leave your email and pick a free PDF to download right away: a 5-page <em>Big Feelings</em> starter pack
+          for parents (feelings chart, feelings thermometer and calm-down cards), or an 8-page sample of{" "}
+          <em>Ship It with Claude Code</em>.
         </p>
       </div>
       <section className="section">

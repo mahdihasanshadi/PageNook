@@ -1,4 +1,4 @@
-import { getEnv, upsertOrder } from "@/lib/server/db";
+import { setSetting, upsertOrder, webhookSecret } from "@/lib/server/db";
 import { verifyHmacHex } from "@/lib/server/crypto";
 
 // Lemon Squeezy signs each webhook body with the signing secret you set in
@@ -21,8 +21,9 @@ type OrderEvent = {
 const HANDLED = new Set(["order_created", "order_refunded"]);
 
 export async function POST(request: Request) {
-  const { LEMONSQUEEZY_WEBHOOK_SECRET: secret } = await getEnv();
-  if (!secret) return new Response("Webhook secret not configured", { status: 503 });
+  const configured = await webhookSecret();
+  if (!configured) return new Response("Webhook secret not configured", { status: 503 });
+  const { secret } = configured;
 
   const raw = await request.text();
   const signature = request.headers.get("x-signature") ?? "";
@@ -38,6 +39,8 @@ export async function POST(request: Request) {
   }
 
   const name = event.meta?.event_name ?? "";
+  // Shown on the dashboard's Payments page so the owner can see the connection works.
+  await setSetting("last_webhook", JSON.stringify({ event: name, at: new Date().toISOString(), test: Boolean(event.meta?.test_mode) }));
   if (!HANDLED.has(name)) return Response.json({ ok: true, ignored: name });
 
   const a = event.data?.attributes ?? {};

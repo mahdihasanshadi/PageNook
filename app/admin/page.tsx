@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { AdminLogin, AdminShell } from "@/components/admin-shell";
 import { formatPrice, products } from "@/lib/catalog";
-import { endAdminSession, isAdmin, startAdminSession } from "@/lib/server/admin-session";
-import { dashboardData, dbIsUp, getEnv, type DailySales } from "@/lib/server/db";
+import { isAdmin } from "@/lib/server/admin-session";
+import { checkoutLinks, dashboardData, dbIsUp, webhookSecret, type DailySales } from "@/lib/server/db";
 
 export const metadata: Metadata = { title: "Admin", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -11,18 +11,6 @@ export const dynamic = "force-dynamic";
 // Lemon Squeezy's standard fee: 5% + 50¢ per order. Payout and bank charges are extra.
 const FEE_RATE = 0.05;
 const FEE_FIXED_CENTS = 50;
-
-async function login(formData: FormData) {
-  "use server";
-  const result = await startAdminSession(String(formData.get("password") ?? ""));
-  redirect(result === "ok" ? "/admin" : `/admin?error=${result}`);
-}
-
-async function logout() {
-  "use server";
-  await endAdminSession();
-  redirect("/admin");
-}
 
 const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
 
@@ -91,58 +79,31 @@ function SalesChart({ rows }: { rows: DailySales[] }) {
 export default async function AdminPage(props: PageProps<"/admin">) {
   if (!(await isAdmin())) {
     const { error } = await props.searchParams;
-    return (
-      <div className="container admin-login">
-        <div className="card login">
-          <h1>Shop admin</h1>
-          <p>Sign in to see your sales and subscribers.</p>
-          <form action={login} style={{ display: "grid", gap: 12 }}>
-            <label htmlFor="password">Password</label>
-            <input id="password" name="password" type="password" required autoComplete="current-password" />
-            {error === "wrong" && <p className="err">That password isn&apos;t right.</p>}
-            {error === "not-configured" && (
-              <p className="err">Admin isn&apos;t set up yet: add an ADMIN_PASSWORD secret (12+ characters).</p>
-            )}
-            <button className="btn btn-primary" type="submit">Sign in</button>
-          </form>
-        </div>
-      </div>
-    );
+    return <AdminLogin next="/admin" error={typeof error === "string" ? error : undefined} />;
   }
 
-  const [d, env, dbUp] = await Promise.all([dashboardData(), getEnv(), dbIsUp()]);
+  const [d, secret, links, dbUp] = await Promise.all([dashboardData(), webhookSecret(), checkoutLinks(), dbIsUp()]);
+  const hasLink = (slug: string, fallback?: string) => Boolean(links[slug] ?? fallback);
   const feesCents = Math.round(d.revenueCents * FEE_RATE) + d.paidOrders * FEE_FIXED_CENTS;
   const netCents = Math.max(0, d.revenueCents - feesCents);
   const forSale = products.filter((p) => p.status === "available");
-  const connected = forSale.filter((p) => p.checkoutUrl).length;
+  const connected = forSale.filter((p) => hasLink(p.slug, p.checkoutUrl)).length;
   const maxProduct = Math.max(1, ...d.byProduct.map((p) => p.cents));
 
   const setup = [
     { done: dbUp, label: "Database connected" },
-    { done: Boolean(env.LEMONSQUEEZY_WEBHOOK_SECRET), label: "Payment webhook secret set" },
-    { done: forSale.length > 0 && connected === forSale.length, label: `Checkout links connected (${connected} of ${forSale.length} PDFs)` },
+    { done: Boolean(secret), label: "Payment webhook connected" },
+    { done: forSale.length > 0 && connected === forSale.length, label: `Checkout links added (${connected} of ${forSale.length})` },
     { done: d.paidOrders > 0, label: "First live sale" },
   ];
 
   return (
-    <div className="container admin">
-      <div className="admin-head">
-        <div>
-          <span className="kicker">PageNook</span>
-          <h1>Shop admin</h1>
-        </div>
-        <div className="admin-actions">
-          <Link className="btn btn-ghost" href="/">View shop</Link>
-          <a className="btn btn-ghost" href="/admin/subscribers.csv">Export emails</a>
-          <form action={logout}><button className="btn btn-primary" type="submit">Sign out</button></form>
-        </div>
-      </div>
-
+    <AdminShell active="/admin" title="Overview" intro="Sales, earnings and subscribers at a glance.">
       <div className="kpis">
         <div className="kpi hero-kpi">
           <span>Your estimated earnings</span>
           <b>{money(netCents)}</b>
-          <small>After Lemon Squeezy fees (5% + 50¢ per order). Bank charges not included.</small>
+          <small>After Lemon Squeezy fees (5% + 50¢ per order). Paid out twice a month once your balance passes $50.</small>
         </div>
         <div className="kpi"><span>Sales before fees</span><b>{money(d.revenueCents)}</b><small>{money(feesCents)} in fees</small></div>
         <div className="kpi"><span>Paid orders</span><b>{d.paidOrders}</b><small>{d.refundedOrders} refunded{d.testOrders ? ` · ${d.testOrders} test` : ""}</small></div>
@@ -152,7 +113,7 @@ export default async function AdminPage(props: PageProps<"/admin">) {
       <div className="admin-grid">
         <SalesChart rows={d.daily} />
         <div className="panel">
-          <div className="panel-head"><div><h2>Store setup</h2><p>What&apos;s ready to take money</p></div></div>
+          <div className="panel-head"><div><h2>Store setup</h2><p>What&apos;s ready to take money</p></div><Link href="/admin/payments">Set up →</Link></div>
           <ul className="setup">
             {setup.map((s) => (
               <li key={s.label} className={s.done ? "done" : "todo"}>
@@ -183,14 +144,14 @@ export default async function AdminPage(props: PageProps<"/admin">) {
           )}
         </div>
         <div className="panel">
-          <div className="panel-head"><div><h2>Catalog</h2><p>{products.length} PDFs · {forSale.length} on sale</p></div></div>
+          <div className="panel-head"><div><h2>Catalog</h2><p>{forSale.length} for sale · {connected} with checkout links</p></div><Link href="/admin/products">Manage →</Link></div>
           <ul className="catalog-list">
             {products.map((p) => (
               <li key={p.slug}>
                 <Link href={`/pdf/${p.slug}`}>{p.title}</Link>
                 <span className="price-sm">{formatPrice(p.price)}</span>
-                <span className={`pill ${p.status === "available" ? (p.checkoutUrl ? "pill-good" : "pill-warn") : "pill-muted"}`}>
-                  {p.status === "available" ? (p.checkoutUrl ? "Selling" : "Needs checkout link") : "Coming soon"}
+                <span className={`pill ${p.status === "available" ? (hasLink(p.slug, p.checkoutUrl) ? "pill-good" : "pill-warn") : "pill-muted"}`}>
+                  {p.status === "available" ? (hasLink(p.slug, p.checkoutUrl) ? "Selling" : "Needs checkout link") : "Coming soon"}
                 </span>
               </li>
             ))}
@@ -224,7 +185,7 @@ export default async function AdminPage(props: PageProps<"/admin">) {
       </div>
 
       <div className="panel">
-        <div className="panel-head"><div><h2>Newest subscribers</h2><p>{d.subscriberCount} in total</p></div></div>
+        <div className="panel-head"><div><h2>Newest subscribers</h2><p>{d.subscriberCount} in total</p></div><a href="/admin/subscribers.csv">Export all (CSV) →</a></div>
         <div className="table-wrap flat">
           <table>
             <thead><tr><th>Date</th><th>Email</th><th>Signed up from</th></tr></thead>
@@ -237,6 +198,6 @@ export default async function AdminPage(props: PageProps<"/admin">) {
           </table>
         </div>
       </div>
-    </div>
+    </AdminShell>
   );
 }

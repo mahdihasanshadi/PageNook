@@ -107,6 +107,47 @@ export async function dbIsUp() {
   }
 }
 
+// ---------- settings managed from the dashboard ----------
+
+export async function getSetting(key: string) {
+  const row = await (await getDb()).prepare("SELECT value, updated_at FROM settings WHERE key = ?1").bind(key).first<{ value: string; updated_at: string }>();
+  return row ?? null;
+}
+
+export async function setSetting(key: string, value: string) {
+  await (await getDb())
+    .prepare("INSERT INTO settings (key, value) VALUES (?1, ?2) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = datetime('now')")
+    .bind(key, value)
+    .run();
+}
+
+/** The webhook signing secret: a Cloudflare secret wins, otherwise the one saved in the dashboard. */
+export async function webhookSecret() {
+  const { LEMONSQUEEZY_WEBHOOK_SECRET } = await getEnv();
+  if (LEMONSQUEEZY_WEBHOOK_SECRET) return { secret: LEMONSQUEEZY_WEBHOOK_SECRET, source: "cloudflare" as const };
+  const saved = await getSetting("ls_webhook_secret");
+  return saved ? { secret: saved.value, source: "dashboard" as const } : null;
+}
+
+// ---------- checkout links ----------
+
+export async function checkoutLinks() {
+  const res = await (await getDb()).prepare("SELECT slug, checkout_url FROM product_links").all<{ slug: string; checkout_url: string }>();
+  return Object.fromEntries(res.results.map((r) => [r.slug, r.checkout_url])) as Record<string, string>;
+}
+
+export async function setCheckoutLink(slug: string, url: string | null) {
+  const db = await getDb();
+  if (url) {
+    await db
+      .prepare("INSERT INTO product_links (slug, checkout_url) VALUES (?1, ?2) ON CONFLICT(slug) DO UPDATE SET checkout_url = excluded.checkout_url, updated_at = datetime('now')")
+      .bind(slug, url)
+      .run();
+  } else {
+    await db.prepare("DELETE FROM product_links WHERE slug = ?1").bind(slug).run();
+  }
+}
+
 export async function allSubscribers() {
   const db = await getDb();
   const res = await db.prepare("SELECT email, source, created_at FROM subscribers ORDER BY id").all();

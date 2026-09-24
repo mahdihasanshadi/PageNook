@@ -96,7 +96,7 @@ export default async function ProductPage(props: PageProps<"/pdf/[slug]">) {
                 {p.bundle && <s className="was">{formatPrice(value)}</s>}
                 <span className={`badge ${ready ? "badge-ready" : "badge-soon"}`}>{ready ? "Instant download" : "Coming soon"}</span>
               </div>
-              <div className="buy-row"><BuyButton product={p} /></div>
+              <div className="buy-row"><BuyButton slug={p.slug} price={formatPrice(p.price)} available={ready} freeSample={p.freeSample} /></div>
               <div className="facts">
                 {p.pages && <span>{p.pages} pages</span>}
                 {p.bundle && <span>{items.length} PDFs · {items.reduce((n, x) => n + (x.pages ?? 0), 0)} pages in total</span>}

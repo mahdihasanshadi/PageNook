@@ -29,7 +29,7 @@ export default function AboutPage() {
           PDFs are written, designed and checked by hand, with the help of modern tools including AI assistants.
           Anything technical is tested for real before it goes in a guide.
         </p>
-        <p>Questions or ideas for a PDF you&apos;d like to see? <Link href="/contact">Get in touch</Link>.</p>
+        <p>Questions or ideas for a PDF you&apos;d like to see? <Link href="/support">Get in touch</Link>.</p>
       </div>
     </div>
   );

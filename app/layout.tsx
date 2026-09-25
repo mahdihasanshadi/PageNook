@@ -3,6 +3,7 @@ import { Gabarito, Nunito_Sans } from "next/font/google";
 import { Footer, Header } from "@/components/site-chrome";
 import { site } from "@/lib/catalog";
 import "./globals.css";
+import "./redesign.css";
 
 const display = Gabarito({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-display" });
 const body = Nunito_Sans({ subsets: ["latin"], variable: "--font-body" });

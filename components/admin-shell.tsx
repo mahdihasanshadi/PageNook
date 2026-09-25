@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { login, logout } from "@/lib/server/admin-actions";
+import { newSupportCount } from "@/lib/server/db";
 
 const tabs = [
   { href: "/admin", label: "Overview" },
   { href: "/admin/products", label: "Products & checkout" },
   { href: "/admin/payments", label: "Payments setup" },
+  { href: "/admin/messages", label: "Messages" },
 ];
 
 export function AdminLogin({ next, error }: { next: string; error?: string }) {
@@ -26,7 +28,8 @@ export function AdminLogin({ next, error }: { next: string; error?: string }) {
   );
 }
 
-export function AdminShell({ active, title, intro, children }: { active: string; title: string; intro?: string; children: React.ReactNode }) {
+export async function AdminShell({ active, title, intro, children }: { active: string; title: string; intro?: string; children: React.ReactNode }) {
+  const unread = await newSupportCount();
   return (
     <div className="container admin">
       <div className="admin-head">
@@ -42,7 +45,10 @@ export function AdminShell({ active, title, intro, children }: { active: string;
       </div>
       <nav className="admin-tabs" aria-label="Admin sections">
         {tabs.map((t) => (
-          <Link key={t.href} href={t.href} aria-current={t.href === active ? "page" : undefined}>{t.label}</Link>
+          <Link key={t.href} href={t.href} aria-current={t.href === active ? "page" : undefined}>
+            {t.label}
+            {t.href === "/admin/messages" && unread > 0 && <span className="tab-badge">{unread} new</span>}
+          </Link>
         ))}
       </nav>
       {children}

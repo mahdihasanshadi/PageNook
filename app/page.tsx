@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CategoryCard, ProductCard } from "@/components/cards";
+import { BundlePromoCard, CategoryCard, ProductCard } from "@/components/cards";
 import { SearchIcon } from "@/components/icons";
 import { SignupForm } from "@/components/signup-form";
 import { categories, newestProducts, MIN_PRICE, formatPrice, productsIn } from "@/lib/catalog";
@@ -28,7 +28,7 @@ export default function Home() {
               Gentle guides for parents, worksheets for little learners, playbooks for builders. Every PDF on PageNook is
               carefully made, clearly explained and ready to download the moment you buy.
             </p>
-            <form className="search" action="/search" role="search">
+            <form className="search" action="/shelves" role="search">
               <label htmlFor="q" className="sr-only">Search PDFs</label>
               <input id="q" name="q" type="search" placeholder="Search worksheets, guides, planners…" />
               <button className="btn btn-sun" type="submit"><SearchIcon /> Search</button>
@@ -57,8 +57,9 @@ export default function Home() {
             <h2>Browse the shelves</h2>
             <Link href="/shelves">All shelves →</Link>
           </div>
-          <div className="cats">
+          <div className="shelf-grid">
             {categories.map((c) => <CategoryCard key={c.slug} category={c} />)}
+            <BundlePromoCard />
           </div>
         </div>
       </section>

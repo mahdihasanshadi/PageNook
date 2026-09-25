@@ -107,6 +107,44 @@ export async function dbIsUp() {
   }
 }
 
+// ---------- support messages ----------
+
+export type SupportMessage = {
+  id: number;
+  name: string;
+  email: string;
+  topic: string;
+  order_ref: string | null;
+  message: string;
+  status: "new" | "done";
+  created_at: string;
+};
+
+export async function addSupportMessage(m: { name: string; email: string; topic: string; orderRef: string | null; message: string }) {
+  await (await getDb())
+    .prepare("INSERT INTO support_messages (name, email, topic, order_ref, message) VALUES (?1, ?2, ?3, ?4, ?5)")
+    .bind(m.name, m.email, m.topic, m.orderRef, m.message)
+    .run();
+}
+
+export async function supportMessages() {
+  const res = await (await getDb()).prepare("SELECT * FROM support_messages ORDER BY status = 'done', created_at DESC, id DESC LIMIT 200").all<SupportMessage>();
+  return res.results;
+}
+
+export async function setSupportStatus(id: number, status: "new" | "done") {
+  await (await getDb()).prepare("UPDATE support_messages SET status = ?2 WHERE id = ?1").bind(id, status).run();
+}
+
+export async function newSupportCount() {
+  try {
+    const row = await (await getDb()).prepare("SELECT COUNT(*) AS n FROM support_messages WHERE status = 'new'").first<{ n: number }>();
+    return row?.n ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 // ---------- settings managed from the dashboard ----------
 
 export async function getSetting(key: string) {

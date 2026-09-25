@@ -4,7 +4,16 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getProduct } from "@/lib/catalog";
 import { endAdminSession, isAdmin, startAdminSession } from "./admin-session";
-import { setCheckoutLink, setSetting } from "./db";
+import { setCheckoutLink, setSetting, setSupportStatus } from "./db";
+
+export async function markMessage(formData: FormData) {
+  if (!(await isAdmin())) redirect("/admin");
+  const id = Number(formData.get("id"));
+  const status = formData.get("status") === "done" ? "done" : "new";
+  if (Number.isInteger(id) && id > 0) await setSupportStatus(id, status);
+  revalidatePath("/admin/messages");
+  redirect("/admin/messages");
+}
 
 export async function login(formData: FormData) {
   const next = String(formData.get("next") ?? "/admin");
